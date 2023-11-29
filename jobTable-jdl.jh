@@ -1,0 +1,116 @@
+entity UserProfile {
+    id Long,
+    firstName String,
+    lastName String,
+    profilePicture ImageBlob,
+    currentPosition String,
+    currentCompany String,
+    industry String,
+    location String,
+    summary TextBlob
+}
+
+entity Connection {
+    id Long,
+    connectionStatus ConnectionStatus required,
+    sentDate Instant required,
+    acceptedDate Instant
+}
+
+enum ConnectionStatus {
+    PENDING, ACCEPTED, DECLINED
+}
+
+entity Message {
+    id Long,
+    messageContent TextBlob required,
+    timestamp Instant required,
+    status MessageStatus required
+}
+
+enum MessageStatus {
+    SENT, DELIVERED, READ
+}
+
+entity Post {
+    id Long,
+    content TextBlob required,
+    timestamp Instant required
+}
+
+entity Comment {
+    id Long,
+    content TextBlob required,
+    timestamp Instant required
+}
+
+entity Job {
+    id Long,
+    title String required,
+    description TextBlob required,
+    location String,
+    jobType JobType required,
+    experienceLevel ExperienceLevel,
+    skillsRequired String
+}
+
+enum JobType {
+    FULL_TIME, PART_TIME, FREELANCE
+}
+
+enum ExperienceLevel {
+    JUNIOR, MID_LEVEL, SENIOR, LEAD
+}
+
+entity Company {
+    id Long,
+    companyName String required,
+    industry String,
+    location String,
+    description TextBlob,
+    logo ImageBlob,
+    employees Integer
+}
+
+entity Education {
+    id Long,
+    schoolName String required,
+    degree String,
+    fieldOfStudy String,
+    startDate Instant,
+    endDate Instant
+}
+
+entity Experience {
+    id Long,
+    companyName String required,
+    position String required,
+    location String,
+    startDate Instant required,
+    endDate Instant,
+    description TextBlob
+}
+
+entity Skill {
+    id Long,
+    skillName String required,
+    endorsements Integer
+}
+
+relationship OneToMany {
+    UserProfile{message} to Message,
+    UserProfile{post} to Post,
+    UserProfile{comment} to Comment,
+    UserProfile{education} to Education,
+    UserProfile{experience} to Experience,
+    UserProfile{skill} to Skill,
+    Company{job} to Job,
+    Post{comment} to Comment
+}
+
+relationship ManyToMany {
+    UserProfile{connection} to Connection{userProfile}
+}
+
+paginate UserProfile, Connection, Message, Post, Comment, Job, Company, Education, Experience, Skill with pagination
+

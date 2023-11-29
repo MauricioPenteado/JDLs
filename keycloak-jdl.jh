@@ -1,0 +1,19 @@
+application {
+  config {
+    baseName myLinkedin,
+    packageName com.litinow,
+    authenticationType oauth2,
+    skipUserManagement true,
+    databaseType sql,
+    prodDatabaseType mysql,
+    devDatabaseType mysql,
+    cacheProvider ehcache,
+    enableHibernateCache true,
+    languages [en],
+    nativeLanguage en,
+    buildTool gradle,
+	jhiPrefix ln,
+    skipClient true,
+    skipServer false
+  }
+}
